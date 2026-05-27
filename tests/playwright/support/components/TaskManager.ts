@@ -19,6 +19,10 @@ export class TaskManager {
   readonly completeTaskButton: Locator;
   readonly incompleteTaskButton: Locator;
 
+  readonly filterByLabel: Locator;
+  readonly sortByLevel :Locator;
+  
+
   constructor(page: Page) {
     this.page = page;
     this.titleInput = page.getByPlaceholder('Task Title');
@@ -32,7 +36,8 @@ export class TaskManager {
     this.cancelEditButton = page.getByRole('button', { name: 'Cancel' });
     this.completeTaskButton = page.getByRole('button', { name: 'Complete' });
     this.incompleteTaskButton = page.getByRole('button', { name: 'Uncomplete' });
-
+    this.filterByLabel = page.getByRole('combobox').nth(2);
+    this.sortByLevel = page.getByRole('combobox').nth(3);
   }
 
   async addTitle(title: string) {
@@ -90,4 +95,15 @@ async assertTaskCount(count: number) {
   async incompleteTask() {
     await this.incompleteTaskButton.click();
   }
+
+async filterBy(label: 'All' | 'Hobby' | 'Home' | 'Work' | 'Social') {
+  await this.filterByLabel.selectOption(label);
+}
+
+async sortBy(order: 'Ascending' | 'Descending') {
+  const option = order === 'Ascending' ? 'Sort by Importance (Ascending)' 
+    : 'Sort by Importance (Descending)';
+  await this.sortByLevel.selectOption(option);
+}
+
 }
