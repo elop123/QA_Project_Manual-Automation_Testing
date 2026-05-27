@@ -43,4 +43,8 @@ export class TaskManager {
   async clickAddTask() {
     await this.addTaskButton.click();
   }
+
+  async deleteTask() {
+    await this.deleteButton.click();
+  }
 }
