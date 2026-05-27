@@ -62,7 +62,7 @@ test.describe('Add Task', () => {
     await expect(task.page.locator('.task-item', { hasText: 'water the plants' })).toBeVisible();
   });
 
-   /* test('User should  NOT be able to add a task with NO title', 
+   test.skip('BUG#01-User should  NOT be able to add a task with NO title', 
     async ({ task }) => {
     await task.page.goto('/');
 
@@ -70,7 +70,7 @@ test.describe('Add Task', () => {
     await task.clickAddTask();
 
     await expect(task.page.locator('.task-item')).toHaveCount(0);
-  });*/
+  });
 
  
 });

@@ -12,6 +12,10 @@ export class TaskManager {
   readonly addTaskButton: Locator;
   readonly editButton: Locator;
   readonly deleteButton: Locator;
+  readonly saveTaskButton: Locator;
+  readonly cancelEditButton: Locator;
+  readonly completeTaskButton: Locator;
+  readonly incompleteTaskButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -22,6 +26,11 @@ export class TaskManager {
     this.addTaskButton = page.getByRole('button', { name: 'Add Task' });
     this.editButton = page.getByRole('button', { name: 'Edit' });
     this.deleteButton = page.getByRole('button', { name: 'Delete' });
+    this.saveTaskButton = page.getByRole('button', { name: 'Save' });
+    this.cancelEditButton = page.getByRole('button', { name: 'Cancel' });
+    this.completeTaskButton = page.getByRole('button', { name: 'Complete' });
+    this.incompleteTaskButton = page.getByRole('button', { name: 'Uncomplete' });
+
   }
 
   async addTitle(title: string) {
@@ -46,5 +55,25 @@ export class TaskManager {
 
   async deleteTask() {
     await this.deleteButton.click();
+  }
+
+  async editTask() {
+    await this.editButton.click();
+  }
+
+  async saveEditedTask() {
+    await this.saveTaskButton.click();
+  }
+
+  async cancelEdit() {
+    await this.cancelEditButton.click();
+  }
+
+  async completeTask() {
+    await this.completeTaskButton.click();
+  }
+
+  async incompleteTask() {
+    await this.incompleteTaskButton.click();
   }
 }

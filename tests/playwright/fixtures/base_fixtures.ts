@@ -1,6 +1,6 @@
 import { test as base } from "@playwright/test";
-import {Page} from '@playwright/test';
-import { TaskManager } from "../support/components/TaskManager";
+import {type Page} from '@playwright/test';
+import { TaskManager } from '../support/components/TaskManager';
 
 
 type MyFixtures = {
