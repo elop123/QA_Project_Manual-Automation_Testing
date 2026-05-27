@@ -2,23 +2,20 @@ import { test, expect } from '../fixtures/base_fixtures';
 
 test.describe('Edit Task', () => {
 
-  test('User should be able to edit a task', 
-    async ({task }) => {
-    await task.page.goto('/');
+ test('User should be able to edit a task', async ({ task }) => {
+  await task.addTitle('Learn Playwright');
+  await task.clickAddTask();
 
-    await task.addTitle('Learn Playwright');
-    await task.clickAddTask();
+  await task.assertTaskVisible('Learn Playwright');
 
-    const taskCard = task.page.locator('.task-item', { hasText: 'Learn Playwright' });
-    await expect(taskCard).toBeVisible();   
+  await task.editTask();
+  await task.addTitle('Learn Playwright - Updated');
+  await task.addDescription('This is an updated description');
+  await task.saveEditedTask();
 
-    await task.editButton.click();
-    await task.addTitle('Learn Playwright - Updated');
-    await task.addDescription('This is an updated description');
-    await task.saveEditedTask()
-    await expect(taskCard).toBeVisible();
-    });
-    });
+  await task.assertTaskVisible('Learn Playwright - Updated');
+});
+});
 
 
    

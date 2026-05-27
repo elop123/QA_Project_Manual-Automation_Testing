@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, Locator, expect } from '@playwright/test';
 
 export type ImportanceOptions = 'High' | 'Medium' | 'Low';
 export type LabelOptions = 'Work' | 'Social' | 'Home' | 'Hobby';
@@ -10,10 +10,12 @@ export class TaskManager {
   readonly selectImportance: Locator;
   readonly selectLabel: Locator;
   readonly addTaskButton: Locator;
+
   readonly editButton: Locator;
   readonly deleteButton: Locator;
   readonly saveTaskButton: Locator;
   readonly cancelEditButton: Locator;
+
   readonly completeTaskButton: Locator;
   readonly incompleteTaskButton: Locator;
 
@@ -53,6 +55,18 @@ export class TaskManager {
     await this.addTaskButton.click();
   }
 
+  getTaskCard(title: string): Locator {
+    return this.page.locator('.task-item', { hasText: title });
+  }
+
+  async assertTaskVisible(title: string) {
+  await expect(this.page.locator('.task-item', { hasText: title })).toBeVisible();
+}
+
+async assertTaskCount(count: number) {
+  await expect(this.page.locator('.task-item')).toHaveCount(count);
+}
+
   async deleteTask() {
     await this.deleteButton.click();
   }
@@ -62,7 +76,7 @@ export class TaskManager {
   }
 
   async saveEditedTask() {
-    await this.saveTaskButton.click();
+    await this.addTaskButton.click();
   }
 
   async cancelEdit() {
