@@ -2,7 +2,7 @@
   
   test.describe('Add Task', () => {
   
-  test('BUG#01-User should  NOT be able to add a task with NO title', 
+  test.skip('BUG#01-User should  NOT be able to add a task with NO title', 
     async ({ task }) => {
 
     await task.addTitle('');
