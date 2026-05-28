@@ -1,9 +1,9 @@
-import { test} from '../fixtures/base_fixtures';
+import { test, page, expect} from '../fixtures/base_fixtures';
 
 test.describe('Sort Tasks by Importance', () => {
 
   test('User should be able to sort tasks in Ascending order', 
-    async ({ task }) => {
+    async ({ task, page}) => {
    
     await task.addTitle('Low Task');
     await task.selectImportanceOption('Low');
@@ -18,6 +18,11 @@ test.describe('Sort Tasks by Importance', () => {
     await task.clickAddTask();
 
     await task.sortBy('Ascending');
+    const taskItems = page.locator('.task-item');
+    const texts = await taskItems.allTextContents();
+    expect(texts[0]).toContain('Low Task');
+    expect(texts[1]).toContain('Medium Task');
+    expect(texts[2]).toContain('High Task');
 
   });
 

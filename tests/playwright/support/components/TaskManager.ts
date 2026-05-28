@@ -17,7 +17,7 @@ export class TaskManager {
   readonly cancelEditButton: Locator;
 
   readonly completeTaskButton: Locator;
-  readonly incompleteTaskButton: Locator;
+  readonly uncompleteTaskButton: Locator;
 
   readonly filterByLabel: Locator;
   readonly sortByLevel :Locator;
@@ -35,7 +35,7 @@ export class TaskManager {
     this.saveTaskButton = page.getByRole('button', { name: 'Save' });
     this.cancelEditButton = page.getByRole('button', { name: 'Cancel' });
     this.completeTaskButton = page.getByRole('button', { name: 'Complete' });
-    this.incompleteTaskButton = page.getByRole('button', { name: 'Uncomplete' });
+    this.uncompleteTaskButton = page.getByRole('button', { name: 'Uncomplete' });
     this.filterByLabel = page.getByRole('combobox').nth(2);
     this.sortByLevel = page.getByRole('combobox').nth(3);
   }
@@ -88,14 +88,7 @@ async assertTaskCount(count: number) {
     await this.cancelEditButton.click();
   }
 
-  async completeTask() {
-    await this.completeTaskButton.click();
-  }
-
-  async incompleteTask() {
-    await this.incompleteTaskButton.click();
-  }
-
+ 
 async filterBy(label: 'All' | 'Hobby' | 'Home' | 'Work' | 'Social') {
   await this.filterByLabel.selectOption(label);
 }
@@ -104,6 +97,31 @@ async sortBy(order: 'Ascending' | 'Descending') {
   const option = order === 'Ascending' ? 'Sort by Importance (Ascending)' 
     : 'Sort by Importance (Descending)';
   await this.sortByLevel.selectOption(option);
+}
+
+async clickCompleteTask()  {
+  await this.completeTaskButton.click()
+}
+
+async clickUncompleteTask() {
+  await this.uncompleteTaskButton.click();
+}
+
+async assertTaskCompleted(title: string) {
+  await expect(this.page.getByText(title)).toHaveClass(/completed/);
+  
+}
+
+async assertTaskUncomplete(title: string) {
+  await expect(this.page.getByText(title)).not.toHaveClass(/uncompleted/);
+}
+
+async assertCompleteButtonVisible() {
+  await expect(this.completeTaskButton).toBeVisible();
+}
+
+async assertUncompleteButtonVisible() {
+  await expect(this.uncompleteTaskButton).toBeVisible();
 }
 
 }
