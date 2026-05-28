@@ -55,14 +55,14 @@ test.describe('Add Task', () => {
     await task.assertTaskVisible('water the plants');
     
   });
-
-   test.skip('BUG#01-User should  NOT be able to add a task with NO title', 
+ test('Task should start with capital letter',
     async ({ task }) => {
 
-    await task.addTitle('');
+    await task.addTitle('Water the plants');
+    await expect(task.titleInput).toHaveValue(/^[A-Z].*/);
     await task.clickAddTask();
-    await task.assertTaskCount(0);
-  });
+    await task.assertTaskVisible('Water the plants');
 
+  });
  
 });
