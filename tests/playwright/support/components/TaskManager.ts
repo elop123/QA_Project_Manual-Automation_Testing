@@ -80,6 +80,12 @@ async assertTaskCount(count: number) {
     await this.editButton.click();
   }
 
+ async assertEditButtonCursor() {
+  await this.editButton.hover();
+  const cursor = await this.editButton.evaluate((el) => getComputedStyle(el).cursor);
+  expect(cursor).toBe('pointer');
+}
+
   async saveEditedTask() {
     await this.addTaskButton.click();
   }
