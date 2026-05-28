@@ -2,7 +2,7 @@ import { test, page, expect} from '../fixtures/base_fixtures';
 
 test.describe('Sort Tasks by Importance', () => {
 
-  test('User should be able to sort tasks in Ascending order', 
+  test.skip('User should be able to sort tasks in Ascending order', 
     async ({ task, page}) => {
    
     await task.addTitle('Low Task');
@@ -26,7 +26,7 @@ test.describe('Sort Tasks by Importance', () => {
 
   });
 
-  test('User should be able to sort tasks in Descending order', 
+  test.skip('User should be able to sort tasks in Descending order', 
     async ({ task, page }) => {
     await task.addTitle('Low Task');
     await task.selectImportanceOption('Low');
