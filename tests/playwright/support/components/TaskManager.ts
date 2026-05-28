@@ -99,6 +99,20 @@ async sortBy(order: 'Ascending' | 'Descending') {
   await this.sortByLevel.selectOption(option);
 }
 
+async assertAscendingSortOrder() {
+  const taskItems = this.page.locator('.task-item');
+  await expect(taskItems.nth(0)).toContainText('Low Task');
+  await expect(taskItems.nth(1)).toContainText('Medium Task');
+  await expect(taskItems.nth(2)).toContainText('High Task');
+}
+
+async assertDescendingSortOrder() {
+  const taskItems = this.page.locator('.task-item');
+  await expect(taskItems.nth(0)).toContainText('High Task');
+  await expect(taskItems.nth(1)).toContainText('Medium Task');
+  await expect(taskItems.nth(2)).toContainText('Low Task');
+}
+
 async clickCompleteTask()  {
   await this.completeTaskButton.click()
 }
