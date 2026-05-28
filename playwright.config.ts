@@ -19,6 +19,11 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
+    {
+      name: "regression",
+      testDir: "./tests/playwright/regression",
+      use: { ...devices["Desktop Chrome"] },
+    },
   ],
 
   webServer: {
