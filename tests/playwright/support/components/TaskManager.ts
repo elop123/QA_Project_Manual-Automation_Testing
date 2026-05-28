@@ -2,6 +2,8 @@ import { Page, Locator, expect } from '@playwright/test';
 
 export type ImportanceOptions = 'High' | 'Medium' | 'Low';
 export type LabelOptions = 'Work' | 'Social' | 'Home' | 'Hobby';
+export type AppLabel = 'All' | 'Hobby' | 'Home' | 'Work' | 'Social';
+export type SortOrder = 'Ascending' | 'Descending';
 
 export class TaskManager {
   readonly page: Page;
@@ -88,15 +90,15 @@ async assertTaskCount(count: number) {
     await this.cancelEditButton.click();
   }
 
- 
-async filterBy(label: 'All' | 'Hobby' | 'Home' | 'Work' | 'Social') {
+async filterBy(label: AppLabel) {
   await this.filterByLabel.selectOption(label);
 }
 
-async sortBy(order: 'Ascending' | 'Descending') {
-  const option = order === 'Ascending' ? 'Sort by Importance (Ascending)' 
-    : 'Sort by Importance (Descending)';
-  await this.sortByLevel.selectOption(option);
+async sortBy(order: SortOrder) {
+  const option = order === 'Ascending' 
+    ? 'Sort by Importance (Ascending)' 
+    : 'Sort by Importance (Descending)';   
+await this.sortByLevel.selectOption(option);
 }
 
 async assertAscendingSortOrder() {
