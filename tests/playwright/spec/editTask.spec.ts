@@ -9,8 +9,8 @@ test.describe('Edit Task', () => {
   await task.assertTaskVisible('Learn Playwright');
 
   await task.editTask();
-  await task.addTitle('Learn Playwright - Updated');
-  await task.addDescription('This is an updated description');
+  await task.editTitle('Learn Playwright - Updated');
+  await task.editDescription('This is an updated description');
   await task.saveEditedTask();
 
   await task.assertTaskVisible('Learn Playwright - Updated');

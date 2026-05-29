@@ -6,9 +6,7 @@ test.describe('Filter Tasks', () => {
 
   labels.forEach((label) => {
     test(`User should be able to filter tasks by ${label}`, 
-    async ({ task }) => {
-    const taskTitle = `${label}`;
-
+    async ({ task, page }) => {
       await task.addTitle(`${label} Task`);
       await task.selectLabelOption(label);
       await task.clickAddTask();

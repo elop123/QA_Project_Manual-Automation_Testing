@@ -44,6 +44,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
                     onChange={(e) => setTitle(e.target.value)}
                     placeholder="Task Title"
                     className="border p-2 rounded-md w-full"
+                    data-testid="task-title-input" 
                 />
                 <textarea
                     value={description}
@@ -51,6 +52,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
                     placeholder="Task Description"
                     className="border p-2 rounded-md w-full"
                     rows={3}
+                    data-testid="task-description-input" 
                 />
                 <div className="flex gap-2 text-center">
                     <div className='flex-1'> Select Importance </div>
@@ -61,6 +63,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
                         value={importance}
                         onChange={(e) => setImportance(e.target.value as 'Low' | 'Medium' | 'High')}
                         className="border p-2 rounded-md flex-1 text-center"
+                        data-testid="task-importance-select"
                     >
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
@@ -69,7 +72,8 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
                     <select
                         value={label}
                         onChange={(e) => setLabel(e.target.value as 'Work' | 'Social' | 'Home' | 'Hobby')}
-                        className="border p-2 rounded-md flex-1 text-center"
+                        className="border p-2 rounded-md flex-1 text-center" 
+                        data-testid="task-label-select"
                     >
                         <option value="Work">Work</option>
                         <option value="Social">Social</option>
@@ -81,7 +85,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAddTask }) => {
                     <button
                         type="submit"
                         // disable cursor pointer when title is empty
-                        className={`p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md ${!title && 'cursor-not-allowed'}`}
+                        className={`p-2 bg-blue-500 hover:bg-blue-600
+                             text-white rounded-md ${!title && 'cursor-not-allowed'}`}
+                    data-testid="add-task-btn"
                     >
                         Add Task
                     </button>

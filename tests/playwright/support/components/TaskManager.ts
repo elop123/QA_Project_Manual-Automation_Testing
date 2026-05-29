@@ -18,6 +18,9 @@ export class TaskManager {
   readonly saveTaskButton: Locator;
   readonly cancelEditButton: Locator;
 
+  readonly editTitleInput: Locator;
+  readonly editDescriptionInput: Locator;
+
   readonly completeTaskButton: Locator;
   readonly uncompleteTaskButton: Locator;
 
@@ -27,19 +30,21 @@ export class TaskManager {
 
   constructor(page: Page) {
     this.page = page;
-    this.titleInput = page.getByPlaceholder('Task Title');
-    this.descriptionInput = page.getByPlaceholder('Task Description');
-    this.selectImportance = page.locator('div.flex.gap-2 select').first();
-    this.selectLabel = page.locator('div.flex.gap-2 select').nth(1);
-    this.addTaskButton = page.getByRole('button', { name: 'Add Task' });
-    this.editButton = page.getByRole('button', { name: 'Edit' });
-    this.deleteButton = page.getByRole('button', { name: 'Delete' });
-    this.saveTaskButton = page.getByRole('button', { name: 'Save' });
-    this.cancelEditButton = page.getByRole('button', { name: 'Cancel' });
-    this.completeTaskButton = page.getByRole('button', { name: 'Complete' });
-    this.uncompleteTaskButton = page.getByRole('button', { name: 'Uncomplete' });
-    this.filterByLabel = page.getByRole('combobox').nth(2);
-    this.sortByLevel = page.getByRole('combobox').nth(3);
+    this.titleInput = page.getByTestId('task-title-input');
+    this.descriptionInput = page.getByTestId('task-description-input');
+    this.selectImportance = page.getByTestId('task-importance-select');;
+    this.selectLabel = page.getByTestId('task-label-select');
+    this.addTaskButton = page.getByTestId('add-task-btn');
+    this.editButton = page.getByTestId('edit-task-btn');
+    this.deleteButton = page.getByTestId('delete-task-btn');
+    this.saveTaskButton = page.getByTestId('save-task-btn');
+    this.cancelEditButton = page.getByTestId('cancel-edit-btn');
+    this.editTitleInput = page.getByTestId('edit-title-input');
+    this.editDescriptionInput = page.getByTestId('edit-description-input');
+    this.completeTaskButton = page.getByTestId('complete-task-btn');
+    this.uncompleteTaskButton = page.getByTestId('uncomplete-task-btn');
+    this.filterByLabel = page.getByTestId('filter-label-select');
+    this.sortByLevel = page.getByTestId('sort-importance-select');
   }
 
   async addTitle(title: string) {
@@ -63,15 +68,15 @@ export class TaskManager {
   }
 
   getTaskCard(title: string): Locator {
-    return this.page.locator('.task-item', { hasText: title });
+    return this.page.getByTestId('task-item').filter({ hasText: title });
   }
 
   async assertTaskVisible(title: string) {
-  await expect(this.page.locator('.task-item', { hasText: title })).toBeVisible();
+  await expect(this.page.getByTestId('task-item').filter({ hasText: title })).toBeVisible();
 }
 
 async assertTaskCount(count: number) {
-  await expect(this.page.locator('.task-item')).toHaveCount(count);
+  await expect(this.page.getByTestId('task-item')).toHaveCount(count);
 }
 
   async deleteTask() {
@@ -82,8 +87,16 @@ async assertTaskCount(count: number) {
     await this.editButton.click();
   }
 
+  async editTitle(title: string) {
+    await this.editTitleInput.fill(title);
+  }
+
+  async editDescription(description: string) {
+    await this.editDescriptionInput.fill(description);
+  }
+
   async saveEditedTask() {
-    await this.addTaskButton.click();
+    await this.saveTaskButton.click();
   }
 
   async cancelEdit() {
@@ -102,14 +115,14 @@ await this.sortByLevel.selectOption(option);
 }
 
 async assertAscendingSortOrder() {
-  const taskItems = this.page.locator('.task-item');
+  const taskItems = this.page.getByTestId('task-item');
   await expect(taskItems.nth(0)).toContainText('Low Task');
   await expect(taskItems.nth(1)).toContainText('Medium Task');
   await expect(taskItems.nth(2)).toContainText('High Task');
 }
 
 async assertDescendingSortOrder() {
-  const taskItems = this.page.locator('.task-item');
+  const taskItems = this.page.getByTestId('task-item');
   await expect(taskItems.nth(0)).toContainText('High Task');
   await expect(taskItems.nth(1)).toContainText('Medium Task');
   await expect(taskItems.nth(2)).toContainText('Low Task');
@@ -124,12 +137,14 @@ async clickUncompleteTask() {
 }
 
 async assertTaskCompleted(title: string) {
-  await expect(this.page.getByText(title)).toHaveClass(/completed/);
+  await expect(this.page.getByTestId('task-item').filter({ hasText: title })
+    ).toHaveClass(/completed/);
   
 }
 
 async assertTaskUncomplete(title: string) {
-  await expect(this.page.getByText(title)).not.toHaveClass(/uncompleted/);
+  await expect(this.page.getByTestId('task-item').filter({ hasText: title })
+    ).not.toHaveClass(/uncompleted/);
 }
 
 async assertCompleteButtonVisible() {
