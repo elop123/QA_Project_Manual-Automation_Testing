@@ -1,86 +1,54 @@
-# Summer 2024 QA Hiring Homework
+# QA Project — Manual & Automation Testing (Task Manager App)
 
-This is a **GitHub template repository** containing a sample React application used to assess the candidate's skills in the QA task. The repo is front-end only.
+End-to-end and visual test suite for a React + TypeScript Task Manager application, covering both **manual exploratory testing** and **automated testing** with **Playwright**, running in CI.
 
-Create your own copy with the **"Use this template"** button (do **not** fork). This gives you an independent repository, with no link back to this one, that you can set to **private** so other candidates can't see your work.
+> Built on a sample Task Manager app (React · TypeScript · Vite · Tailwind). My work in this repo is the testing: the bug report, the Playwright test suite, and the CI workflows.
 
-## The Sample App
+---
 
-The app is a simple Task Manager application that displays a list of Tasks.
-A task has 5 ( user-facing ) properties:
+## 🧰 Tech & Tools
+- **Playwright** (TypeScript) — end-to-end & visual testing
+- **GitHub Actions** — CI for functional and visual test runs
+- **Argos** — visual regression comparison
+- **App under test:** React · TypeScript · Vite · Tailwind CSS
 
+## 🔍 What this project demonstrates
+
+### Manual / Exploratory Testing
+I tested the application for functional and UX/visual issues and documented findings in [`Bug Report - Sheet.pdf`](./Bug%20Report%20-%20Sheet.pdf). Summary: I found **[N]** bugs, including **[1–2 short examples, e.g. "title field accepts lowercase first letter despite the capitalization requirement"]**.
+
+### Automated Testing (Playwright)
+The suite covers:
+- **[5]** user-story tests for core flows (add, edit, delete, complete/incomplete, filter by label, sort by importance)
+- **[3]** regression tests tied to bugs found during manual testing (these intentionally fail until the bugs are fixed)
+- A **combination test** that generates every combination of task properties (importance × label × completeness) and captures a screenshot of each state for visual review
+
+### CI
+Two GitHub Actions workflows in [`.github/workflows/`](./.github/workflows):
+- `e2e.yml` — runs the functional / end-to-end tests on every push
+- `visual.yml` — runs the visual (screenshot) tests and uploads results to Argos for regression comparison
+
+## ▶️ Running locally
+
+```bash
+npm install        # install dependencies
+npm run dev        # start the app (http://localhost:5175)
+npx playwright test          # run the e2e tests
+npx playwright test --ui     # run in UI mode
+npx playwright show-report   # view the HTML report
 ```
-- Title - string
-- Description - string
-- Importance - High, Medium, Low
-- Label - Work, Social, Home, Hobby
-- Completeness - boolean
+
+## 📁 Structure
+```
+src/                  # the Task Manager app under test
+tests/playwright/     # Playwright test specs
+.github/workflows/    # CI: e2e.yml + visual.yml
+Bug Report - Sheet.pdf  # manual testing findings
 ```
 
-The app has the following features:
 
-1. User should be able to **add** a task
-2. User should be able to **delete** a task
-3. User should be able to **edit** a task
-4. User should be able to **mark** a task as **complete / incomplete**
-5. User should be able to **filter** tasks **by label**
-6. User should be able to **sort** tasks **by importance**
 
-Product requirements for adding tasks are:
 
-1. Title and Importance are required
-2. Description and Label are optional
-3. Completeness is set to false by default
-4. Importance is set to Medium by default
-5. Label is set to Work by default
-6. Title should start with capital letter
+---
 
-Other requirements are up to the candidate's interpretation - since a lot of the times on the job, requirements are not clear and the QA has to make a decision based on the context. A thing to keep in mind is that the app should be user-friendly and intuitive.
-
-## Homework
-
-The position is highly focused on automation ( around 90% ), but sometimes manual testing is inevitable - especially when trying to move things along and validate small fixes for deploys - that's why we expect candidates to be proficient in both. The homework is divided into two parts:
-
-1. Exploratory Testing and Bug Reporting
-2. Automated Testing
-
-### Exploratory Testing and Bug Reporting
-
-- The candidate is expected to test the application and report any bugs found.
-- We encourage to look for both functional and visual (UX) bugs.
-- The candidate should provide a report of the bugs found.
-
-You will be evaluated on the quality of the report and the bugs found.
-
-### Automated Testing
-
-The candidate is expected to write automated tests for the application, by choosing either Cypress or Playwright as the testing framework.
-Here is what should be covered
-
-- 5 user stories
-- 3 regression tests for functional bugs found during manual testing ( they should fail when run, because the bugs are not fixed yet )
-- A test that generates a test of all possible combinations of the task properties ( importance, label, completeness ) and takes a screenshot of the app after each combination is added.
-
-The test suite must also run in CI. Add **two GitHub Actions workflow files** under `.github/workflows/`:
-
-- `e2e.yml` — runs the functional / end-to-end tests
-- `visual.yml` — runs the visual (screenshot) tests and uploads the results to **[Argos](https://argos-ci.com)** for visual regression comparison
-
-## Steps to follow
-
-1. Click **"Use this template" → Create a new repository** and make it **private** ( do not fork ) - https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template
-2. Invite the reviewer to your repository valaheugen(valaheugen237@gmail.com)
-3. Clone your repository
-4. Install the dependencies `npm install`
-5. Run the app using `npm run dev`, http://localhost:5175/
-6. Start testing the app
-7. Write the bug report based on findings and commit it in the root folder
-8. Install the testing framework of your choice
-9. Write the automated tests
-10. Add two CI workflow ( `.yml` ) files in `.github/workflows/` — one for the e2e tests and one for the visual tests ( Argos )
-11. Commit the tests and workflows to the project
-12. Push the changes to your repository on a new branch
-13. Open a PR to the main branch
-14. Add the reviewer as a reviewer to the PR
-
-If you have any questions, feel free to open an issue in your private repository ( so other candidates don't see the questions ) and I'll do my best to answer them ASAP.
+*Manual + automation QA project demonstrating Playwright, CI, and visual regression testing.*
