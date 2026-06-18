@@ -15,7 +15,7 @@ Built on a sample Task Manager app (React · TypeScript · Vite · Tailwind). My
 ## 🔍 What this project demonstrates
 
 ### Manual / Exploratory Testing
-I have completed functional and UX/visual testing for the application. The results are documented in [`Bug Report - Sheet.pdf`] (./Bug%20Report%20-%20Sheet.pdf).
+I have completed functional and UX/visual testing for the application. The results are documented in Bug Report - Sheet.pdf.
 In summary, I found 5 bugs, complete with full reproduction steps and attachments.
 
 ### Automated Testing (Playwright)
