@@ -1,20 +1,19 @@
 import { test as base } from "@playwright/test";
-import {Page} from '@playwright/test';
-import { TaskManager } from "../support/components/TaskManager";
+import {type Page} from '@playwright/test';
+import { TaskManager } from '../support/components/TaskManager';
+import { AppNavigation } from '../support/navigation/AppNavigation';
 
 
 type MyFixtures = {
   task: TaskManager;
 };
 
-const createFixture = <T>(Component: new (page: Page) => T) => {
-return async ({ page }: { page: Page }, use: (fixture: T) => Promise<void>) => {
-await use(new Component(page));
-};
-};
-
 export const test = base.extend<MyFixtures>({
-  task: [createFixture(TaskManager), { scope: 'test' }],
+  task: async ({ page }, use) => {
+    const nav = new AppNavigation(page);
+    await nav.navigateToTaskManager(); 
+    await use(new TaskManager(page));  
+  },
 });
 
 export { expect } from "@playwright/test";
