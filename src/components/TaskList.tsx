@@ -11,11 +11,14 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTask, onEditTask }) => {
 
 
+    const [filterLabel, setFilterLabel] = useState<string>('All');
     const [isEditing, setIsEditing] = useState<string | null>(null);
     const [editTitle, setEditTitle] = useState('');
     const [editDescription, setEditDescription] = useState('');
     const [editImportance, setEditImportance] = useState<Importance>('Low');
     const [editLabel, setEditLabel] = useState<Label>('Work');
+
+    const visibleTasks = filterLabel === 'All' ? tasks : tasks.filter(t => t.label === filterLabel);
 
     const handleEdit = (task: Task) => {
         setIsEditing(task.id);
@@ -38,10 +41,27 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
     };
 
     return (
+        <div>
+            <div className="flex justify-center mb-4">
+                <select
+                    value={filterLabel}
+                    onChange={(e) => setFilterLabel(e.target.value)}
+                    className="border p-2 rounded-md"
+                    aria-label="Filter by label"
+                    data-testid="filter-label-select"
+                >
+                    <option value="All">All</option>
+                    <option value="Work">Work</option>
+                    <option value="Social">Social</option>
+                    <option value="Home">Home</option>
+                    <option value="Hobby">Hobby</option>
+                </select>
+            </div>
         <div className="task-list flex flex-wrap gap-4 justify-center mx-20">
-            {tasks.map(task => (
+            {visibleTasks.map(task => (
                 <div
                     key={task.id}
+                    data-testid="task-item" 
                     className={`task-item max-w-custom w-full p-4 border rounded-md bg-white shadow-md ${task.completed ? 'bg-green-200' : 'bg-gray-200'}`}
                     style={{ maxWidth: '250px' }}
                 >
@@ -53,17 +73,21 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                                 onChange={(e) => setEditTitle(e.target.value)}
                                 className="block w-full mb-2 p-1 border rounded-md"
                                 placeholder="Title"
+                                data-testid="edit-title-input"
                             />
                             <textarea
                                 value={editDescription}
                                 onChange={(e) => setEditDescription(e.target.value)}
                                 className="block w-full mb-2 p-1 border rounded-md"
                                 placeholder="Description"
+                                data-testid="edit-description-input"
                             />
                             <select
                                 value={task.importance}
                                 onChange={(e) => setEditImportance(e.target.value as Importance)}
                                 className="block w-full mb-2 p-1 border rounded-md"
+                                aria-label="Edit importance"
+                                data-testid="edit-importance-select"
                             >
                                 <option value="Low">Low</option>
                                 <option value="Medium">Medium</option>
@@ -73,6 +97,8 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                                 value={task.label}
                                 onChange={(e) => setEditLabel(e.target.value as Label)}
                                 className="block w-full mb-2 p-1 border rounded-md"
+                                aria-label="Edit label"
+                                data-testid="edit-label-select"
                             >
                                 <option value="Work">Work</option>
                                 <option value="Social">Social</option>
@@ -82,6 +108,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                             <button
                                 onClick={() => handleSaveEdit(task.id)}
                                 className="py-1 px-2 bg-blue-500 text-white rounded-md"
+                                data-testid="save-task-btn"
                             >
                                 Save
                             </button>
@@ -93,6 +120,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                                     }
                                 }}
                                 className="py-1 px-2 bg-gray-500 text-white rounded-md ml-2 cursor-text"
+                                data-testid="cancel-edit-btn"
                             >
                                 Cancel
                             </button>
@@ -107,18 +135,21 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                                 <button
                                     onClick={() => onToggleComplete(task.id)}
                                     className={`py-1 px-2 text-xs rounded-md text-white ${task.completed ? 'bg-fuchsia-500' : 'bg-green-500 hover:bg-green-600'}`}
+                                    data-testid={task.completed ? 'uncomplete-task-btn' : 'complete-task-btn'}
                                 >
                                     {task.completed ? 'Uncomplete' : 'Complete'}
                                 </button>
                                 <button
                                     onClick={() => onDeleteTask(task.title)}
                                     className="py-1 px-2 text-xs bg-red-500 hover:bg-red-600 text-white rounded-md"
+                                    data-testid="delete-task-btn"
                                 >
                                     Delete
                                 </button>
                                 <button
                                     onClick={() => handleEdit(task)}
                                     className="py-1 px-2 text-xs bg-yellow-500 hover:bg-yellow-600 text-white rounded-md cursor-wait"
+                                    data-testid="edit-task-btn"
                                 >
                                     Edit
                                 </button>
@@ -127,6 +158,7 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, onToggleComplete, onDeleteTa
                     )}
                 </div>
             ))}
+        </div>
         </div>
     );
 };
